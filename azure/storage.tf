@@ -18,6 +18,7 @@ resource "azurerm_storage_account" "logs" {
   account_tier                      = "Standard"
   account_replication_type          = "LRS"
   infrastructure_encryption_enabled = false
+  min_tls_version                   = "TLS1_1"
 }
 
 

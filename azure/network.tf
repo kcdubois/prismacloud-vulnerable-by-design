@@ -12,6 +12,13 @@ resource "azurerm_subnet" "public" {
   address_prefixes     = ["10.10.0.0/20"]
 }
 
+resource "azurerm_subnet" "frontend" {
+  name                 = "frontend"
+  resource_group_name  = azurerm_resource_group.example.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.10.16.0/20"]
+}
+
 resource "azurerm_subnet" "private" {
   name                 = "private"
   resource_group_name  = azurerm_resource_group.example.name
@@ -71,8 +78,13 @@ resource "azurerm_network_security_group" "database" {
   location            = azurerm_resource_group.example.location
 }
 
+
 resource "azurerm_subnet_network_security_group_association" "public" {
   subnet_id                 = azurerm_subnet.public.id
+  network_security_group_id = azurerm_network_security_group.public.id
+}
+resource "azurerm_subnet_network_security_group_association" "frontend" {
+  subnet_id                 = azurerm_subnet.frontend.id
   network_security_group_id = azurerm_network_security_group.public.id
 }
 
