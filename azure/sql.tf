@@ -81,20 +81,6 @@ resource "azurerm_mssql_managed_instance" "example" {
   administrator_login_password = "NCC-1701-D"
 }
 
-resource "azurerm_storage_account" "mssql" {
-  name                     = "acct${var.name}${random_string.this.result}"
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-}
-
-resource "azurerm_storage_container" "example" {
-  name                  = "container${var.name}${random_string.this.result}"
-  storage_account_name  = azurerm_storage_account.mssql.name
-  container_access_type = "private"
-}
-
 resource "azurerm_mssql_managed_instance_security_alert_policy" "example" {
   resource_group_name        = azurerm_resource_group.example.name
   managed_instance_name      = azurerm_mssql_managed_instance.example.name
@@ -106,7 +92,7 @@ resource "azurerm_mssql_managed_instance_security_alert_policy" "example" {
 
 resource "azurerm_mssql_managed_instance_vulnerability_assessment" "example" {
   managed_instance_id        = azurerm_mssql_managed_instance.example.id
-  storage_container_path     = "${azurerm_storage_account.mssql.primary_blob_endpoint}${azurerm_storage_container.example.name}/"
+  storage_container_path     = "${azurerm_storage_account.mssql.primary_blob_endpoint}${azurerm_storage_container.mssql.name}/"
   storage_account_access_key = azurerm_storage_account.mssql.primary_access_key
 
   recurring_scans {

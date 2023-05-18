@@ -1,13 +1,13 @@
 // Linux
 
 resource "azurerm_network_interface" "linux" {
-  name                = "linux-${random_string.this.result}-nic"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
-
+  name                 = "linux-${random_string.this.result}-nic"
+  location             = azurerm_resource_group.example.location
+  resource_group_name  = azurerm_resource_group.example.name
+  enable_ip_forwarding = true
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet1.id
+    subnet_id                     = azurerm_subnet.public.id
     private_ip_address_allocation = "Dynamic"
   }
 }
@@ -40,7 +40,6 @@ resource "azurerm_linux_virtual_machine" "linux" {
   }
 }
 
-
 // Windows
 resource "azurerm_network_interface" "windows" {
   name                = "windows-${random_string.this.result}-nic"
@@ -49,7 +48,7 @@ resource "azurerm_network_interface" "windows" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet1.id
+    subnet_id                     = azurerm_subnet.private.id
     private_ip_address_allocation = "Dynamic"
   }
 }
@@ -63,6 +62,7 @@ resource "azurerm_windows_virtual_machine" "windows" {
   size                = "Standard_F2"
   admin_username      = "adminuser"
   admin_password      = "P@$$w0rd1234!"
+
   network_interface_ids = [
     azurerm_network_interface.windows.id,
   ]
