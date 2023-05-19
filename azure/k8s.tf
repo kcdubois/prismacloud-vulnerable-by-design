@@ -1,6 +1,6 @@
 resource "azurerm_kubernetes_cluster" "k8s_cluster" {
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
 
   dns_prefix = "prismacloud"
   name       = "prismacloud-ca-central-aks"

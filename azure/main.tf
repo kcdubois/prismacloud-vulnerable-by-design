@@ -6,9 +6,8 @@ resource "random_string" "this" {
   upper   = false
 }
 
-resource "azurerm_resource_group" "example" {
-  location = var.location
-  name     = "rg-${var.name}-${random_string.this.result}"
+data "azurerm_resource_group" "example" {
+  name = var.resource_group_name
 }
 
 data "azurerm_client_config" "current" {}
@@ -16,14 +15,14 @@ data "azurerm_client_config" "current" {}
 
 // Variables
 
-variable "location" {
-  type    = string
-  default = "Canada Central"
-}
-
 variable "name" {
   type    = string
   default = "pcs"
+}
+
+variable "resource_group_name" {
+  type    = string
+  default = "prismacloud_test_rg"
 }
 
 

@@ -1,6 +1,6 @@
 resource "azurerm_cdn_frontdoor_profile" "example" {
   name                = "cdn${random_string.this.result}"
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = data.azurerm_resource_group.example.name
   sku_name            = "Standard_AzureFrontDoor"
 }
 
@@ -15,15 +15,15 @@ resource "azurerm_cdn_frontdoor_endpoint" "example" {
 
 resource "azurerm_public_ip" "appgw" {
   name                = "appgw-${random_string.this.result}-pip"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
   allocation_method   = "Dynamic"
 }
 
 resource "azurerm_application_gateway" "example" {
   name                = "appgw-${random_string.this.result}"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
 
   sku {
     name     = "Standard_Small"

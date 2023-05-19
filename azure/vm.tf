@@ -2,8 +2,8 @@
 
 resource "azurerm_network_interface" "linux" {
   name                 = "linux-${random_string.this.result}-nic"
-  location             = azurerm_resource_group.example.location
-  resource_group_name  = azurerm_resource_group.example.name
+  location             = data.azurerm_resource_group.example.location
+  resource_group_name  = data.azurerm_resource_group.example.name
   enable_ip_forwarding = true
   ip_configuration {
     name                          = "internal"
@@ -14,8 +14,8 @@ resource "azurerm_network_interface" "linux" {
 
 resource "azurerm_linux_virtual_machine" "linux" {
   name                = "linux-${random_string.this.result}"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
   size                = "Standard_B2s"
   admin_username      = "adminuser"
   network_interface_ids = [
@@ -43,8 +43,8 @@ resource "azurerm_linux_virtual_machine" "linux" {
 // Windows
 resource "azurerm_network_interface" "windows" {
   name                = "windows-${random_string.this.result}-nic"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
 
   ip_configuration {
     name                          = "internal"
@@ -57,8 +57,8 @@ resource "azurerm_network_interface" "windows" {
 resource "azurerm_windows_virtual_machine" "windows" {
   name                = "windows-${random_string.this.result}"
   computer_name       = "win${random_string.this.result}"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
   size                = "Standard_F2"
   admin_username      = "adminuser"
   admin_password      = "P@$$w0rd1234!"

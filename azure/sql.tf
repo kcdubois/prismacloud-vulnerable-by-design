@@ -2,8 +2,8 @@
 
 resource "azurerm_postgresql_server" "example" {
   name                = "psql${random_string.this.result}"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
 
   sku_name = "GP_Gen5_2"
 
@@ -25,28 +25,28 @@ resource "azurerm_postgresql_server" "example" {
 
 resource "azurerm_postgresql_configuration" "config1" {
   name                = "log_connections"
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = data.azurerm_resource_group.example.name
   server_name         = azurerm_postgresql_server.example.name
   value               = "off"
 }
 
 resource "azurerm_postgresql_configuration" "config2" {
   name                = "log_disconnections"
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = data.azurerm_resource_group.example.name
   server_name         = azurerm_postgresql_server.example.name
   value               = "off"
 }
 
 resource "azurerm_postgresql_configuration" "config3" {
   name                = "connection_throttling"
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = data.azurerm_resource_group.example.name
   server_name         = azurerm_postgresql_server.example.name
   value               = "off"
 }
 
 resource "azurerm_postgresql_database" "example" {
   name                = "exampledb"
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = data.azurerm_resource_group.example.name
   server_name         = azurerm_postgresql_server.example.name
   charset             = "UTF8"
   collation           = "English_United States.1252"
@@ -55,7 +55,7 @@ resource "azurerm_postgresql_database" "example" {
 
 resource "azurerm_postgresql_virtual_network_rule" "example" {
   name                                 = "postgresql-vnet-rule"
-  resource_group_name                  = azurerm_resource_group.example.name
+  resource_group_name                  = data.azurerm_resource_group.example.name
   server_name                          = azurerm_postgresql_server.example.name
   subnet_id                            = azurerm_subnet.database.id
   ignore_missing_vnet_service_endpoint = true
@@ -67,8 +67,8 @@ resource "azurerm_postgresql_virtual_network_rule" "example" {
 
 resource "azurerm_mssql_managed_instance" "example" {
   name                = "mssql${random_string.this.result}"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
 
   license_type                 = "BasePrice"
   sku_name                     = "GP_Gen5"
@@ -82,7 +82,7 @@ resource "azurerm_mssql_managed_instance" "example" {
 }
 
 resource "azurerm_mssql_managed_instance_security_alert_policy" "example" {
-  resource_group_name        = azurerm_resource_group.example.name
+  resource_group_name        = data.azurerm_resource_group.example.name
   managed_instance_name      = azurerm_mssql_managed_instance.example.name
   enabled                    = true
   storage_endpoint           = azurerm_storage_account.mssql.primary_blob_endpoint
@@ -109,8 +109,8 @@ resource "azurerm_mssql_managed_instance_vulnerability_assessment" "example" {
 // MYSQL Database
 resource "azurerm_mysql_server" "example" {
   name                = "mysql-${var.name}${random_string.this.result}"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
 
   administrator_login           = "mysqladminun"
   administrator_login_password  = "H@Sh1CoR3!"
@@ -125,7 +125,7 @@ resource "azurerm_mysql_server" "example" {
 
 resource "azurerm_mysql_active_directory_administrator" "example" {
   server_name         = azurerm_mysql_server.example.name
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = data.azurerm_resource_group.example.name
   login               = "sqladmin"
   tenant_id           = data.azurerm_client_config.current.tenant_id
   object_id           = data.azurerm_client_config.current.object_id
