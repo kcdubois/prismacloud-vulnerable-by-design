@@ -1,7 +1,7 @@
 resource "azurerm_redis_cache" "example" {
   name                = "cache-${var.name}-${random_string.this.result}"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
   capacity            = 2
   family              = "C"
   sku_name            = "Standard"

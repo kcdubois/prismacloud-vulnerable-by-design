@@ -1,7 +1,7 @@
 resource "azurerm_eventhub_namespace" "example" {
   name                = "eventhub-${random_string.this.result}"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.example.location
+  resource_group_name = data.azurerm_resource_group.example.name
   sku                 = "Standard"
   capacity            = 2
 }
